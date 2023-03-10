@@ -135,10 +135,19 @@ const clickHandler = (e) => {
     const upvoteEvent = clickedEl.className.includes('upvote');
 
     if (upvoteEvent) {
+        // get the closest upvote button
+        const upvoteBtnEl = clickedEl.closest('.upvote');
 
+        // disable upvote button
+        upvoteBtnEl.disabled = true;
+
+        // increment upvote count by 1 and update the HTML
+        const upvoteCountEl = upvoteBtnEl.querySelector('.upvote__count');
+        let upvoteCount = +upvoteCountEl.textContent;
+        upvoteCountEl.textContent = ++upvoteCount
     } else {
         // expand feedback item
-        clickedEl.closest('.feedback').classList.add('feedback--expand')
+        clickedEl.closest('.feedback').classList.toggle('feedback--expand')
     }
 
 };
