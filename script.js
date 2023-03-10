@@ -127,6 +127,24 @@ formSubmitEl.addEventListener('click', submitHandler);
 
 
 // -- FEEDBACK LIST COMPONENT -- //
+const clickHandler = (e) => {
+    // get clicked HTML-element
+    const clickedEl = e.target;
+
+    // determine if user intended to upvote or expand feedback item
+    const upvoteEvent = clickedEl.className.includes('upvote');
+
+    if (upvoteEvent) {
+
+    } else {
+        // expand feedback item
+        clickedEl.closest('.feedback').classList.add('feedback--expand')
+    }
+
+};
+
+feedbackListEl.addEventListener('click', clickHandler)
+
 fetch(`${BASE_API_URL}/feedbacks`)
     .then(res => {
         return res.json();
