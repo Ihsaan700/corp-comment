@@ -76,7 +76,7 @@ const submitHandler = (event) => {
     // extract information from text
     const hashtag = text.split(' ').find(word => word.includes(('#')));
     const company = hashtag.substring(1);
-    const badgeLetter = hashtag.substring(0, 1).toUpperCase();
+    const badgeLetter = hashtag.substring(1, 2).toUpperCase();
     const upvoteCount = 0;
     const daysAgo = 0;
 
@@ -92,6 +92,26 @@ const submitHandler = (event) => {
     // render feedback item
     renderFeedbackItem(feedbackItem)
 
+    // send feedback item to server
+    fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks', {
+        method: 'POST',
+        body: JSON.stringify(feedbackItem),
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+
+        }
+    }).then(res => {
+        if (!res.ok) {
+            console.log('something went wrong');
+            return;
+        }
+
+        console.log('successfully submitted');
+    }).catch(error => {
+        console.log(error);
+    });
+
     // clear textarea
     textAreaEl.value = '';
 
@@ -102,7 +122,7 @@ const submitHandler = (event) => {
     counterEl.textContent = MAX_CHARS;
 };
 
-formEl.addEventListener('click', submitHandler);
+formSubmitEl.addEventListener('click', submitHandler);
 
 
 // -- FEEDBACK LIST COMPONENT -- //
