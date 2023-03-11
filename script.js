@@ -7,7 +7,8 @@ const counterEl = document.querySelector('.counter');
 const formEl = document.querySelector('.form');
 const formSubmitEl = document.querySelector('.submit-btn');
 const feedbackListEl = document.querySelector('.feedbacks');
-const spinnerEl = document.querySelector('.spinner')
+const hashtagListEl = document.querySelector(('.hashtags'));
+const spinnerEl = document.querySelector('.spinner');
 
 const renderFeedbackItem = (feedbackItem) => {
     // HTML for new feedback item
@@ -32,7 +33,7 @@ const renderFeedbackItem = (feedbackItem) => {
     feedbackListEl.insertAdjacentHTML('afterbegin', feedbackItemHTML);
 };
 
-// -- COUNTER COMPONENT -- //
+// -- COUNTER COMPONENT --
 const inputHandler = () => {
     // calculate number of characters left
     const noCharsTyped = textAreaEl.value.length;
@@ -42,7 +43,7 @@ const inputHandler = () => {
 textAreaEl.addEventListener('input', inputHandler);
 
 
-// -- FORM COMPONENT -- //
+// -- FORM COMPONENT --
 const showVisualIndicator = (textCheck) => {
     const className = textCheck === 'valid' ? 'form--valid' : 'form--invalid'
 
@@ -126,7 +127,7 @@ const submitHandler = (event) => {
 formSubmitEl.addEventListener('click', submitHandler);
 
 
-// -- FEEDBACK LIST COMPONENT -- //
+// -- FEEDBACK LIST COMPONENT --
 const clickHandler = (e) => {
     // get clicked HTML-element
     const clickedEl = e.target;
@@ -154,21 +155,53 @@ const clickHandler = (e) => {
 
 feedbackListEl.addEventListener('click', clickHandler)
 
-fetch(`${BASE_API_URL}/feedbacks`)
-    .then(res => {
-        return res.json();
-    })
+const getItems = () => {fetch(`${BASE_API_URL}/feedbacks`
+)
+.
+then(res => {
+    return res.json();
+})
     .then(data => {
         // remove spinner
         spinnerEl.remove();
-
 
         // iterate over data
         data.feedbacks.forEach(feedback => {
             renderFeedbackItem(feedback)
         });
-
     })
     .catch(error => {
         feedbackListEl.textContent = `Failed to fetch feedback items. Error message: ${error.message}`;
     });
+}
+
+getItems()
+
+// -- HASHTAG LIST COMPONENT --
+const clickHandler2 = (event) => {
+    // get the clicked element
+
+    const clickedEl = event.target;
+
+    // stop function if click is in list but outside of buttons
+    if (clickedEl.className === 'hashtags') return;
+
+    // extract company name
+    const companyNameHashtag = clickedEl.textContent.substring(1).toLowerCase().trim()
+
+    // iterate over each feedback item in the list
+     feedbackListEl.childNodes.forEach(childNode => {
+        // stop iteration if the child node is a text node
+        if (childNode.nodeType === 3) return;
+
+        // extract company name
+        const companyNameFeedbackItem = childNode.querySelector('.feedback__company').textContent.toLowerCase().trim();
+
+        if (companyNameHashtag !== companyNameFeedbackItem) {
+            childNode.remove();
+        }
+
+    });
+};
+
+hashtagListEl.addEventListener('click', clickHandler2)
