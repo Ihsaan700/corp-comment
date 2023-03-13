@@ -4,4 +4,4 @@ An app to give feedback Publicly.
 ![alt text](https://github.com/Ihsaan700/corp-comment/blob/main/project-screenshot.png)
 
 ### Description
-This app puts into practice best practices for JS code aswell as using fetch to pull in and post data.
+This is a core project which demonstrates modern JavaScript features, best practices, and also more generally, demonstrates how modern front and web apps or websites work.
