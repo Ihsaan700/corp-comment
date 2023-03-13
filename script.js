@@ -180,7 +180,6 @@ getItems()
 // -- HASHTAG LIST COMPONENT --
 const clickHandler2 = (event) => {
     // get the clicked element
-
     const clickedEl = event.target;
 
     // stop function if click is in list but outside of buttons
